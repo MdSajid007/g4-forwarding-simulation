@@ -2,10 +2,10 @@
 
 > Compare two forwarding modes under controlled network stress using deterministic seeds, transparent metrics, and a preserved negative result.
 
-This project is a focused G4a-G4d subset of the DRF-BLE research project. It
+This project is a focused subset of the DRF-BLE research project. It
 compares flooding with controlled retransmission in a **BLE ADV-inspired
 simulator**, then checks whether the evidence justifies developing a selector.
-The recorded G4d verdict is **`NULL/NEGATIVE`**: no tested scenario passes all
+The recorded verdict for this project is **`NULL/NEGATIVE`**: no tested scenario passes all
 three required confidence-interval conditions. This is a simulation study;
 Bluetooth Mesh compliance, hardware validation, and successful ML forwarding
 are not established.
@@ -22,7 +22,7 @@ investing in an adaptive selector.
 
 The intended users are students learning simulation and technical reporting,
 and researchers inspecting a small, reproducible forwarding comparison.
-The scenarios are controlled experiments, not measured emergency deployments.
+The scenarios are controlled experiments, and are not measured for emergency deployments.
 
 ## Features / Solution
 
