@@ -10,8 +10,7 @@ three required confidence-interval conditions. This is a simulation study;
 Bluetooth Mesh compliance, hardware validation, and successful ML forwarding
 are not established.
 
-Prepared for Dr. Jia Uddin's Technical Writing README assignment. Public
-publication was authorized by the authenticated GitHub account holder.
+Prepared for Technical Writing README assignment.
 No open-source license has been assigned; see [license status](LICENSE_STATUS.md).
 
 ## Problem & Users
