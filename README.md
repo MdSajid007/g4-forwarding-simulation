@@ -1,4 +1,4 @@
-# G4 Forwarding Simulation
+# Forwarding Simulation
 
 > Compare two forwarding modes under controlled network stress using deterministic seeds, transparent metrics, and a preserved negative result.
 
@@ -235,10 +235,9 @@ focused tests, and distinguish software verification from performance claims.
 Changes to policies, thresholds, or scenarios require a separately identified
 experiment rather than replacing this study's negative result.
 
-**License:** this repository has no assigned open-source license. The account
-holder authorized publication, but that authorization does not establish
-independent copyright clearance or grant an open-source license. Read
-[ownership and licensing status](LICENSE_STATUS.md).
+**License:** This project is shared for academic, educational, and research transparency purposes.
+No open-source license has been assigned. Reuse, modification, or redistribution may require permission from the relevant copyright holders.
+For details, see Ownership and Licensing Status.
 
 **Contact:** use the [repository's Issues tab](https://github.com/MdSajid007/g4-forwarding-simulation/issues).
 No personal email address or unverified source-author identity is included.
