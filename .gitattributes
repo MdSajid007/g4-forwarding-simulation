@@ -1,0 +1,2 @@
+# Preserve audited bytes and SHA-256 checks across Git checkouts.
+* -text whitespace=trailing-space,space-before-tab,cr-at-eol

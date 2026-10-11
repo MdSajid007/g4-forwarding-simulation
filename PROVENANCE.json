@@ -1,0 +1,298 @@
+{
+  "copied_files": [
+    {
+      "path": "docs/g4d_oracle_gap_report.md",
+      "sha256": "ab358578553adc19fe4b4d6c5ea66861fbecbd0bb2f6e3f3fd9ec7b8579ef4a6",
+      "size_bytes": 3391
+    },
+    {
+      "path": "experiments/scenario_configs/phase5_scenarios.py",
+      "sha256": "146dd9aabb8895a897d814349609a7e815bfdde08157aa635b2ea187c9b578d9",
+      "size_bytes": 13998
+    },
+    {
+      "path": "outputs/g4d_mode_comparison_results.csv",
+      "sha256": "9f48c0dcf1e72bbe88ed9c439160c84f19b45cac814002351b828394d99b2be7",
+      "size_bytes": 72557
+    },
+    {
+      "path": "outputs/g4d_oracle_gap_summary.csv",
+      "sha256": "bc399840044717467af9c9a7da59a0bdd3d17af5c04c17638f0ba07eb626f1b0",
+      "size_bytes": 2933
+    },
+    {
+      "path": "src/__init__.py",
+      "sha256": "ee8c39eb58195ae88f4fa38e6d7e92fbb2f3bee46bc7b31da3705e4a70997067",
+      "size_bytes": 30
+    },
+    {
+      "path": "src/airtime.py",
+      "sha256": "1e620cf849b766745f412fffa32d12a4593e02ad2b92a5165d5a2f8cabf4e4a5",
+      "size_bytes": 5429
+    },
+    {
+      "path": "src/bridge_drf_policy.py",
+      "sha256": "6014518b04e8bbf164a192e72ba6e3ceb2c174e3c54be13e8e3cfd4bee2ccf45",
+      "size_bytes": 16531
+    },
+    {
+      "path": "src/cgf_policy.py",
+      "sha256": "badcadb98ff1fe8c9401fa6ea18f045b6ec4ecb593d915ae91d8650633b09a50",
+      "size_bytes": 24244
+    },
+    {
+      "path": "src/config.py",
+      "sha256": "09ae52b39d4fbd8b3111067b34f959b3cc748710ea17f45e50624db3bc405076",
+      "size_bytes": 17073
+    },
+    {
+      "path": "src/counterfactual/__init__.py",
+      "sha256": "9243554ad6a2bfaffd8f83f4dbea0d5f14adee736cfd87de189956dd270097aa",
+      "size_bytes": 372
+    },
+    {
+      "path": "src/counterfactual/g4d_oracle_gap.py",
+      "sha256": "f49d6045bafdae5905e54ecb4d24acb2270ea79a5b99fd444e8fb0fc7fd7d7ee",
+      "size_bytes": 24181
+    },
+    {
+      "path": "src/counterfactual/mode_comparison.py",
+      "sha256": "3f3e73642f5e9156b69ad844f8653bec5497094c0056334df484248496ae6e8b",
+      "size_bytes": 11069
+    },
+    {
+      "path": "src/counterfactual/noop_isolation.py",
+      "sha256": "6b8108946a0ed9926cf2cc073399fa77dec1f97b0d9cfaff46d9420e95344dce",
+      "size_bytes": 9958
+    },
+    {
+      "path": "src/coverage_hint.py",
+      "sha256": "cecd6eadbca9fc85e17e5ad9d15a34e6f6c14c815564be8243802cf80e2eb5c1",
+      "size_bytes": 4876
+    },
+    {
+      "path": "src/dataset_io.py",
+      "sha256": "73884c2ca633528f6eddac4831e39acd1b1c712c02483333d244f9baba86aa0a",
+      "size_bytes": 9754
+    },
+    {
+      "path": "src/decision_logger.py",
+      "sha256": "d7b68d2a1cc041904265326e35f7383e17721d6e309f88cdcffc979bce1a41ea",
+      "size_bytes": 19644
+    },
+    {
+      "path": "src/entities.py",
+      "sha256": "d02152eb886ecec6529a66eaaa3b91c242015d6cfcd4b4c7a5f8f3d376597ab1",
+      "size_bytes": 5723
+    },
+    {
+      "path": "src/experts/__init__.py",
+      "sha256": "d17dcc6f6fdfebc6b5bfe30ea12c1ea045032f3eaa6eb4c1830d5bcfcb95413e",
+      "size_bytes": 184
+    },
+    {
+      "path": "src/experts/controlled_retransmission.py",
+      "sha256": "5c9bc2bb33411a25a896c2c059af649e4909881b2cc5dd56262c95f63838c69f",
+      "size_bytes": 10493
+    },
+    {
+      "path": "src/experts/flood.py",
+      "sha256": "3fb9b45369016c85bcabcc5fcb81c3ea549687ed845f331feb2e9dd928482abb",
+      "size_bytes": 4650
+    },
+    {
+      "path": "src/hashing.py",
+      "sha256": "10e1895da30e324a9e40a8f44bc0cbaba2d19c6ad7531d04426b561cf2f2bc53",
+      "size_bytes": 2589
+    },
+    {
+      "path": "src/mac_engine.py",
+      "sha256": "b6e4cdaccaed4a63f3c7ed3ab7947e7458b20dc6e4851c032525a79fe3b50c62",
+      "size_bytes": 35885
+    },
+    {
+      "path": "src/mobility.py",
+      "sha256": "bde1109084e67540bbcf91586972cdc8909169195d8c4aafd8eab5f3ea259e3a",
+      "size_bytes": 6798
+    },
+    {
+      "path": "src/node_state.py",
+      "sha256": "8a5a77839cfb5c13129fe6c36c49ee1d133374b970890598a90c126f04e2c7cc",
+      "size_bytes": 7215
+    },
+    {
+      "path": "src/phy.py",
+      "sha256": "befa5e8f2c979286893ac19e8a9a23687b539ed800869e739aa9aefb4bb120ae",
+      "size_bytes": 5887
+    },
+    {
+      "path": "src/policies.py",
+      "sha256": "b46079c222b55a6f6dd8e86e1f16da972f4d1cef45352dbe4146a2c1565fe705",
+      "size_bytes": 17009
+    },
+    {
+      "path": "src/reliability_gated_policy.py",
+      "sha256": "90f83785ff6b27e6561345539e20becfdf0bad9a5d75afad766682e6a5d3b869",
+      "size_bytes": 28886
+    },
+    {
+      "path": "src/reliability_state.py",
+      "sha256": "8919f41914dc329bd867a2aca79da0121ffca55ee262f6d6f8d72438375f1e68",
+      "size_bytes": 17585
+    },
+    {
+      "path": "src/scheduler.py",
+      "sha256": "a16dc81f12517eb6f464dc14c3834c7625926907575a56fb705bc485b9a40fba",
+      "size_bytes": 4059
+    },
+    {
+      "path": "src/seeds.py",
+      "sha256": "90673116b1bcbfb1d43287ef4976e846c4bec28afc66c659fd2f2fe15f032bfa",
+      "size_bytes": 3925
+    },
+    {
+      "path": "src/simulate.py",
+      "sha256": "169edcec1172c33bf2402bfd02e1e68163ccc4219612eaa396528c48f74a5847",
+      "size_bytes": 3222
+    },
+    {
+      "path": "src/traffic.py",
+      "sha256": "c04f28e5968daf0f28dcab212f724097a548023723f2689e17058343472a7491",
+      "size_bytes": 3775
+    },
+    {
+      "path": "tests/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "tests/conftest.py",
+      "sha256": "07240e944d40cb2b121164d2fca04c6f0e790691e3bf802af5b0eb4abd98a631",
+      "size_bytes": 295
+    },
+    {
+      "path": "tests/test_config.py",
+      "sha256": "0c3e48fac613578b0ab449903838993d04b38995f5e61711616a24b27d06908c",
+      "size_bytes": 3626
+    },
+    {
+      "path": "tests/test_dataset_io.py",
+      "sha256": "6b239a75d462337a65ff1465161504be519f7966dd9433d6293b0ede79066c78",
+      "size_bytes": 3953
+    },
+    {
+      "path": "tests/test_energy_airtime_monotonic.py",
+      "sha256": "e305889c0a6af7b21f5d14f6df24606457b4e87dbbf66ea2902d0da9c0942113",
+      "size_bytes": 6206
+    },
+    {
+      "path": "tests/test_flood_density_trend.py",
+      "sha256": "57d82ac43a3d488616cce706178d14a612457ecbc5a9ea618944669895e94b30",
+      "size_bytes": 6622
+    },
+    {
+      "path": "tests/test_g3a_noop_isolation.py",
+      "sha256": "2ca0e265c8cf6e28c2d5f5eb814eb223ff31a297fa696deb7f531d2eee3a71c8",
+      "size_bytes": 6106
+    },
+    {
+      "path": "tests/test_g4a_flood_expert_state_machine.py",
+      "sha256": "fec492039dee257e905eb4226615e6de083b2ce859d0d270dee559e5cfee3bbf",
+      "size_bytes": 7184
+    },
+    {
+      "path": "tests/test_g4b_controlled_retransmission_expert.py",
+      "sha256": "43116cbc09f4d29a16ea973badfac540b0738e7822e99995386c860f8b4479a9",
+      "size_bytes": 9312
+    },
+    {
+      "path": "tests/test_g4c_mode_comparison_result.py",
+      "sha256": "3b9741ce5ff88d2dabde9ff0df855f747aed60a0836073fcef2cab960866c8f7",
+      "size_bytes": 6913
+    },
+    {
+      "path": "tests/test_g4d_oracle_gap_probe.py",
+      "sha256": "f29b009472d02880c3b11b67d1a2f6630ffbf524ae6dd81dea5f1bcce4079403",
+      "size_bytes": 9720
+    },
+    {
+      "path": "tests/test_gate_a.py",
+      "sha256": "aeb38d3f69c5b32aaca439195fda57c4eb88a926141f4831348c43742d5c4e30",
+      "size_bytes": 3964
+    },
+    {
+      "path": "tests/test_interference_trend.py",
+      "sha256": "5309031f6e0bac43c1213e5f4960b8e2b4adcf255aa9ce73a0536cde723b5639",
+      "size_bytes": 5327
+    },
+    {
+      "path": "tests/test_load_collision_trend.py",
+      "sha256": "75b1284925cfeef4a83e07a16642e6dee16765d514996494d995e909abca89f5",
+      "size_bytes": 5268
+    },
+    {
+      "path": "tests/test_mobility.py",
+      "sha256": "50dd9c1d111700b7ee494465d5d9916440556dff80e0f29ed6224d20d0c2b52b",
+      "size_bytes": 2098
+    },
+    {
+      "path": "tests/test_node_state.py",
+      "sha256": "49432a8f29d169556f13d45be21ac8667853e4701d821d0695acfca2bff39ef0",
+      "size_bytes": 21533
+    },
+    {
+      "path": "tests/test_phy.py",
+      "sha256": "16bc924291beba2ef6c5a5a7d8ef6ad6ba66a38ebadf37a9142272279183bf72",
+      "size_bytes": 2040
+    },
+    {
+      "path": "tests/test_reliability_state.py",
+      "sha256": "7bc5178357b3d0b6e99be3b9ceb7bb91265b563d828c4ffcd785bd13b1b6d091",
+      "size_bytes": 16790
+    },
+    {
+      "path": "tests/test_scan_duty_trend.py",
+      "sha256": "47377498806f56f41c91207625a0c0a705453bfd462e2e128971d05f20c662fd",
+      "size_bytes": 4764
+    },
+    {
+      "path": "tests/test_scheduler.py",
+      "sha256": "1d00105097b746a171e69d6ce505b0e61a0e33c1a36494aad468b64e8003a797",
+      "size_bytes": 1402
+    },
+    {
+      "path": "tests/test_seeds.py",
+      "sha256": "0b4cac8528aa912dea163f3bdb71dffba872e2c7d6e274aa20deaa83deae123b",
+      "size_bytes": 2458
+    },
+    {
+      "path": "tests/test_simulation.py",
+      "sha256": "4c6da90d3eca9ad55c2e06f3c86eb9eb0fb3808d5bba6c399028ef74ff4f71f4",
+      "size_bytes": 4712
+    },
+    {
+      "path": "tests/test_traffic.py",
+      "sha256": "6647186738ed44e49d3d5276fd0fa7fb5a3c2267167278b8c2525b695e117d7c",
+      "size_bytes": 3329
+    },
+    {
+      "path": "tests/test_ttl_cache_relay.py",
+      "sha256": "c9a752d63481664cb55df72d1574bc98ee2786e964e2776081d002649ac9fe82",
+      "size_bytes": 5835
+    }
+  ],
+  "original_tree_file_count": 6430,
+  "original_tree_sha256": "78cf0938c0b8f2ad8a6e6947552e6c5ee51c3c84230accbe7697b191a72ac150",
+  "ownership_and_public_release_authority": "Public publication explicitly authorized by the authenticated account holder on 2026-10-11; independent copyright ownership and third-party-rights verification not performed. No open-source license assigned.",
+  "preservation": "All listed files were copied byte-for-byte; new wrapper scripts do not change simulation parameters, seeds, policies, or statistical gates.",
+  "publication_authorization": {
+    "basis": "Explicit account-holder authorization in the preparation session",
+    "date": "2026-10-11",
+    "github_account": "MdSajid007",
+    "open_source_license": null,
+    "timezone": "Asia/Seoul"
+  },
+  "schema_version": "1",
+  "scope": "G4a-G4d full-mode comparison, original simulation code and frozen historical results",
+  "source_identity": "drf_ble_project_start local snapshot; no Git history present"
+}

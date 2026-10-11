@@ -1,0 +1,94 @@
+{
+  "claims_not_established": [
+    "Bluetooth Mesh compliance",
+    "BLE hardware validation",
+    "successful ML-based forwarding",
+    "field deployment reliability",
+    "cross-platform reproducibility"
+  ],
+  "dependencies": {
+    "Pygments": "2.21.0",
+    "colorama": "0.4.6",
+    "iniconfig": "2.3.1",
+    "numpy": "2.4.6",
+    "packaging": "26.3",
+    "pandas": "3.0.3",
+    "pip": "26.0.1",
+    "pluggy": "1.6.0",
+    "pyarrow": "25.0.0",
+    "pytest": "9.1.0",
+    "python-dateutil": "2.9.0.post0",
+    "scipy": "1.17.1",
+    "six": "1.17.0",
+    "tzdata": "2026.5"
+  },
+  "dependencies_equal_between_environments": true,
+  "focused_tests": {
+    "duration_seconds": 94.52,
+    "passed": 267,
+    "scope": "22 preserved original test files; not the complete legacy project suite.",
+    "skip_reason": "Fading is disabled in the easy configuration; pathloss-only mode.",
+    "skipped": 1
+  },
+  "fresh_environment_count": 2,
+  "frozen_result_reanalysis": {
+    "config_bindings_match": true,
+    "paired_rows": 90,
+    "report_text_matches": true,
+    "scenarios": 9,
+    "summary_numeric_tolerance": 1e-12
+  },
+  "full_replays": [
+    {
+      "arm_executions": 180,
+      "environment": "A",
+      "g5_authorized": false,
+      "output_dir": "reproduction/repeat_a",
+      "paired_rows": 90,
+      "reference_matches": {
+        "paired_csv": true,
+        "report_text": true,
+        "summary_csv": true
+      },
+      "reproduced": true,
+      "scenarios": 9,
+      "verdict": "NULL/NEGATIVE"
+    },
+    {
+      "arm_executions": 180,
+      "environment": "B",
+      "g5_authorized": false,
+      "output_dir": "reproduction/repeat_b",
+      "paired_rows": 90,
+      "reference_matches": {
+        "paired_csv": true,
+        "report_text": true,
+        "summary_csv": true
+      },
+      "reproduced": true,
+      "scenarios": 9,
+      "verdict": "NULL/NEGATIVE"
+    }
+  ],
+  "pip_check": "PASS_BOTH_ENVIRONMENTS",
+  "platform": {
+    "architecture": "AMD64",
+    "os": "Windows",
+    "python": "3.14.4"
+  },
+  "public_release_status": "PUBLICATION_AUTHORIZED_NO_OPEN_SOURCE_LICENSE",
+  "replay_output_guard": {
+    "frozen_outputs_destination_rejected": true,
+    "return_code": 2
+  },
+  "same_host": true,
+  "schema_version": "1",
+  "smoke": {
+    "delivered": 48,
+    "pdr": 1.0,
+    "tx_attempts": 144
+  },
+  "timezone": "Asia/Seoul",
+  "user_and_system_site_packages_excluded": true,
+  "verification_date": "2026-10-11"
+}

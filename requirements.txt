@@ -1,0 +1,7 @@
+# Direct dependencies for the preserved G4 workflow and focused tests.
+# Use requirements-lock.txt for the complete tested environment.
+numpy==2.4.6
+pandas==3.0.3
+scipy==1.17.1
+pyarrow==25.0.0
+pytest==9.1.0
