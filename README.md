@@ -1,99 +1,116 @@
-# Forwarding Simulation
+# BLE ADV-Inspired Forwarding Simulator
 
-> Compare two forwarding modes under controlled network stress using deterministic seeds, transparent metrics, and a preserved negative result.
+> A Python simulator for evaluating forwarding reliability and transmission costs under controlled network conditions.
 
-This project is a focused subset of the DRF-BLE research project. It
-compares flooding with controlled retransmission in a **BLE ADV-inspired
-simulator**, then checks whether the evidence justifies developing a selector.
-The recorded verdict for this project is **`NULL/NEGATIVE`**: no tested scenario passes all
-three required confidence-interval conditions. This is a simulation study;
-Bluetooth Mesh compliance, hardware validation, and successful ML forwarding
-are not established.
+Wireless devices can pass packets, or small units of data, through neighboring
+devices to reach a destination. Sending more copies may improve delivery, but
+it can also increase network traffic. This project investigates that trade-off
+using a simulator inspired by Bluetooth Low Energy (BLE) advertising.
 
-Prepared for Technical Writing README assignment.
-No open-source license has been assigned; see [license status](LICENSE_STATUS.md).
+The simulator compares **flooding**, where each eligible node relays a newly
+received packet, with **controlled retransmission**, where a forwarding node
+sends additional copies according to the configured policy. It models node
+movement, packet traffic, and competition for radio access to compare their
+outcomes.
+
+The original **G4a–G4d experimental series** forms part of the broader
+**DRF-BLE** research project. This repository contains its Python implementation,
+scenario definitions, and results. None of the nine G4d scenarios passed the
+combined acceptance criteria; the result is reported as **`NULL/NEGATIVE`**.
 
 ## Problem & Users
 
-A forwarding method can increase packet delivery while also increasing
-network traffic. Comparing delivery alone can therefore hide its cost.
-This project measures delivery and transmission attempts together before
-investing in an adaptive selector.
+I use these experiments to ask whether controlled retransmission can maintain
+packet delivery while reducing transmission attempts compared with flooding.
+This matters because delivery improvements can come with substantial extra
+traffic, so delivery alone is an incomplete measure of forwarding efficiency.
 
-The intended users are students learning simulation and technical reporting,
-and researchers inspecting a small, reproducible forwarding comparison.
-The scenarios are controlled experiments, and are not measured for emergency deployments.
+The main reliability measure is **packet-delivery ratio (PDR)**: the number
+of packets delivered divided by the number injected into the simulation.
+Transmission attempts provide a separate count of communication cost.
+
+The project is intended for students with basic Python knowledge and
+researchers studying reproducible network experiments. Its scenarios represent
+controlled simulation conditions rather than measured emergency deployments.
 
 ## Features / Solution
 
-- Two complete forwarding modes: `FloodExpertStateMachine` and
-  `ControlledRetransmissionExpert`.
-- Nine fixed scenarios, including an easy fixture and eight controlled stress
-  scenarios, each evaluated with seeds 1-10.
-- Matched mobility, traffic, and MAC drift initialization between the two arms.
-- Packet-delivery ratios, transmission counts, configuration hashes, and
-  confidence intervals in readable CSV files.
-- A frozen gate that requires delivery safety, transmission reduction, and
-  oracle-gap evidence in the **same scenario**.
-- Focused tests, a quick smoke command, and a replay command that preserves
-  the checked-in reference results.
+| Experimental stage | Purpose |
+|---|---|
+| G4a | Implement the flood forwarding mode. |
+| G4b | Implement the controlled-retransmission mode. |
+| G4c | Compare complete runs of the two modes under matched initial conditions. |
+| G4d | Apply a predefined acceptance gate to the paired results. |
 
-The supported workflow covers G4a-G4d. Later selectors, trained models,
-ns-3 experiments, and evidence-tooling research are outside this checkout.
+The experiment covers **nine scenarios with ten seeds each**: an easy test
+case and eight controlled stress scenarios. A seed controls the simulator's
+random choices. **Paired seeds** mean both forwarding modes use the same
+configuration and seed label, with matching movement, traffic, and initial
+radio-clock drift (simulated differences in node clock rates). Their later
+execution can diverge as forwarding decisions change.
+
+The **G4d acceptance gate** is a predefined decision rule requiring delivery
+safety, fewer transmission attempts, and an **oracle-gap score** to pass in
+the same scenario. The oracle-gap score measures how often controlled
+retransmission would be chosen for using fewer attempts without exceeding the
+allowed delivery loss, if both modes' final outcomes were already known. It
+is an optimistic evaluation signal, not an implemented node-level selector.
+
+The gate uses **95% confidence intervals**, which summarize statistical
+uncertainty across the paired runs. The exact criteria and results are in
+the [G4d report](docs/g4d_oracle_gap_report.md).
 
 ## Architecture
 
+The simulator combines a **medium access control (MAC)** abstraction, which
+controls transmission opportunities, with a **physical layer (PHY)** model
+that estimates signal and reception conditions.
+
 ```mermaid
 flowchart LR
-    A[Scenario configuration and seed] --> B[Mobility, traffic, and RNG streams]
-    B --> C[Event scheduler and MAC/PHY engine]
-    D[Flood or controlled retransmission] --> C
-    C --> E[Paired metrics and hashes]
-    E --> F[Confidence intervals and G4d gate]
+    A["Scenario + seed"] --> B["Movement + traffic"]
+    B --> C["Scheduler + MAC/PHY"]
+    D["Forwarding mode"] --> C
+    C --> E["Metrics + hashes"]
+    E --> F["G4d acceptance gate"]
 ```
 
-`src/config.py` defines the configuration dataclasses. `src/seeds.py` provides
-named random streams. Mobility and traffic builders create the shared initial
-conditions. `src/mac_engine.py` runs the scheduled events and calls the policy
-interfaces. `src/counterfactual/mode_comparison.py` compares complete mode
-runs, and `g4d_oracle_gap.py` summarizes them and applies the statistical gate.
+| Component | Role in the simulation |
+|---|---|
+| [Configuration](src/config.py) | Defines node, traffic, radio, and timing parameters. |
+| [Random streams](src/seeds.py) | Supplies repeatable random choices to simulation components. |
+| [Mobility](src/mobility.py) and [traffic](src/traffic.py) | Generate node movement and packet injections. |
+| [Event scheduler](src/scheduler.py) | Processes simulation events in time order. |
+| [MAC engine](src/mac_engine.py) and [PHY model](src/phy.py) | Model channel access, signal conditions, and packet reception. |
+| [Forwarding experts](src/experts/) | Decide which packets to relay or retransmit. |
+| [Paired comparison](src/counterfactual/mode_comparison.py) and [G4d analysis](src/counterfactual/g4d_oracle_gap.py) | Collect mode outcomes, calculate confidence intervals, and evaluate the gate. |
 
-```text
-src/                         Preserved simulator and G4 implementation
-experiments/scenario_configs/ Preserved eight-scenario definitions
-tests/                       Focused original regression tests
-scripts/                     Smoke, verification, and safe replay commands
-outputs/                     Two frozen historical G4d CSV tables
-docs/                        G4d report, scope, and reproducibility record
-PROVENANCE.json              Hashes of files copied from the original project
-FILE_MANIFEST.json           SHA-256 inventory of the proposed release files
-```
-
-The copied source is unchanged. Small wrapper scripts provide convenient
-commands without changing policies, seeds, scenario parameters, or gate
-thresholds. See [scope and preservation](docs/SCOPE.md).
+Hashes identify configurations and result files so repeated runs can be
+checked for consistency. The command scripts call the original implementation
+without changing its algorithms, seeds, or statistical thresholds.
 
 ## Prerequisites
 
-- **Python 3.14.4, 64-bit**, is the environment used for this candidate's checks.
-- Windows with PowerShell for the commands below.
-- Internet access to install the pinned Python dependencies.
-- NumPy, pandas, SciPy, PyArrow, and pytest, supplied through the requirements
-  files. SciPy is needed to retain the recorded confidence-interval method.
+- **Windows on AMD64 with PowerShell** for the documented commands.
+- **Python 3.14.4, 64-bit**, the version used in the verification runs.
+- Git to clone the repository, and access to Python packages for installation.
+- NumPy, pandas, SciPy, PyArrow, and pytest, installed through the requirements
+  files below.
 
-The workflow runs in software and requires no BLE radio. Other Python versions
-and operating systems have not been validated for this release candidate.
+No BLE radio is needed to run the simulation. Other operating systems and
+Python versions have not been verified. SciPy is required to reproduce the
+recorded confidence-interval calculations.
 
 ## Installation
 
-Clone this repository, then open PowerShell in its root directory:
+Clone the repository and enter its root directory:
 
 ```powershell
 git clone https://github.com/MdSajid007/g4-forwarding-simulation.git
 cd g4-forwarding-simulation
 ```
 
-Create an isolated environment and install the complete dependency lock:
+Create a virtual environment and install the pinned dependencies:
 
 ```powershell
 python --version
@@ -102,142 +119,153 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m pip check
 ```
 
-These commands use the environment's Python directly, so activation is
-optional. `requirements.txt` lists the direct dependencies;
-`requirements-lock.txt` records the complete environment used for verification.
+`requirements.txt` lists the direct dependencies. `requirements-lock.txt`
+contains the complete dependency versions used for verification. These
+commands use the virtual environment's Python directly, so activation is
+optional.
 
 ## Quick Start / Usage
 
-Run the existing easy fixture in memory:
+Run all commands from the repository root.
+
+**Smoke test:** run the easy scenario in memory to check the installation.
 
 ```powershell
 .\.venv\Scripts\python.exe -B scripts\smoke.py
 ```
 
-Verify the preserved CSV results, their configuration bindings, the summary,
-and the report without rerunning simulations:
+**Result and file verification:** check the saved results, configuration
+bindings, summaries, report, and file hashes without rerunning the experiments.
 
 ```powershell
 .\.venv\Scripts\python.exe -B scripts\verify_results.py
 .\.venv\Scripts\python.exe -B scripts\verify_integrity.py
 ```
 
-Run the focused test suite:
+**Focused tests:** check the simulator components and G4 implementation.
 
 ```powershell
 .\.venv\Scripts\python.exe -B -m pytest tests -p no:cacheprovider -q
 ```
 
-Replay all nine scenarios with ten seeds and two forwarding modes:
+**Full G4d reproduction:** run nine scenarios with ten paired seeds and two
+forwarding modes, for **180 simulation-arm executions**.
 
 ```powershell
 .\.venv\Scripts\python.exe -B scripts\reproduce_g4d.py
 ```
 
-The replay performs 180 arm executions and writes into
-`reproduction/latest/`, which Git ignores. It compares the generated files
-with the preserved results and returns a nonzero status if they differ.
-The checked-in CSVs and report are preserved. To keep a separate repeat:
+The command writes new files to the Git-ignored `reproduction/latest/` folder
+and compares them with the original CSVs and report. It returns a nonzero
+status if they differ. To keep another run separately:
 
 ```powershell
 .\.venv\Scripts\python.exe -B scripts\reproduce_g4d.py --output-dir reproduction/repeat
 ```
 
-Avoid invoking the original `src.counterfactual.g4d_oracle_gap` module directly
-when preserving reference files: its historical command overwrites them.
-Detailed validation scope and results are in the
-[reproducibility record](docs/REPRODUCIBILITY.md).
+Use this script rather than running `src.counterfactual.g4d_oracle_gap`
+directly, because the original module command overwrites the reference files.
 
-Verification on 2026-10-11: **267 tests passed and 1 was skipped**. Two fresh
-Windows/Python 3.14.4 environments reproduced both G4d CSVs byte-for-byte and
-the report text. The skip concerns fading disabled in the easy fixture.
+Verification on **2026-10-11** recorded **267 tests passed and 1 skipped**.
+Two fresh Windows/Python 3.14.4 environments reproduced both G4d CSVs
+byte-for-byte and the report text. The skipped test concerns fading, which is
+disabled in the easy scenario. The environments shared one host.
+See [reproducibility details](docs/REPRODUCIBILITY.md) for the full scope.
 
 ## Example Output
 
-The easy-fixture smoke command produces:
+The smoke test produces:
 
 ```json
 {"delivered": 48, "pdr": 1.0, "tx_attempts": 144}
 ```
 
-Here `pdr` is the packet-delivery ratio. This small fixture's complete delivery
-does not establish performance under the stress scenarios.
+This means 48 packets were delivered with 144 transmission attempts. Complete
+delivery in this easy scenario does not establish performance under stress.
 
-The frozen-result verification reports:
+Result verification produces:
 
 ```json
 {"g5_authorized": false, "paired_rows": 90, "scenarios": 9, "verdict": "NULL/NEGATIVE", "verified": true}
 ```
 
-For example, `p5_partition_reconnect` has mean PDR `0.5528304` for flood and
-`0.5886792` for controlled retransmission. The controlled mode's mean relative
-transmission-attempt change is approximately `+1.4133`: its delivery increase
-comes with substantially more attempts, so it does not pass the combined gate.
-See the [full G4d report](docs/g4d_oracle_gap_report.md) and
-[scenario summary](outputs/g4d_oracle_gap_summary.csv).
+None of the nine scenarios passed all three G4d conditions. The
+`g5_authorized: false` field indicates that the gate did not justify the next
+selector-development stage. **`NULL/NEGATIVE` applies to the tested modes,
+scenarios, seeds, and thresholds; it does not prove that adaptive forwarding
+is universally ineffective.**
+
+The [experimental report](docs/g4d_oracle_gap_report.md) and
+[scenario summary](outputs/g4d_oracle_gap_summary.csv) show the delivery and
+transmission-cost trade-offs for each scenario.
 
 ## Data / Model
 
-This checkout contains simulation results and **no trained model**.
+This study contains simulation data and **no trained machine-learning model**.
 
 | File | Contents |
 |---|---|
-| `outputs/g4d_mode_comparison_results.csv` | 90 paired records: scenario, seed, configuration hash, mode outcomes, cost proxies, and initialization-pairing checks |
-| `outputs/g4d_oracle_gap_summary.csv` | Nine scenario summaries: means, confidence intervals, and gate conditions |
-| `experiments/scenario_configs/phase5_scenarios.py` | Eight controlled scenario builders; the easy fixture is defined in `src/config.py` |
-| `PROVENANCE.json` | Byte-identity records for the preserved source and historical results |
+| [Paired results](outputs/g4d_mode_comparison_results.csv) | 90 records with scenario, seed, configuration hash, mode outcomes, and pairing checks. |
+| [Scenario summary](outputs/g4d_oracle_gap_summary.csv) | Nine summaries with means, confidence intervals, and gate decisions. |
+| [Scenario definitions](experiments/scenario_configs/phase5_scenarios.py) | Eight controlled stress scenarios; the easy scenario is defined in `src/config.py`. |
+| [Source provenance](PROVENANCE.json) | Original file identities and source-origin records. |
 
-The evaluation uses paired-sample t intervals for delivery and relative
-transmission deltas, and Clopper-Pearson binomial intervals for oracle-gap
-scores. A positive gate requires at least ten paired seeds, valid pairing,
-delivery-delta lower bound >= `-0.02`, relative-transmission-delta upper bound
-<= `-0.05`, and oracle-gap lower bound > `0.05` in one scenario. Point estimates
-or favorable conditions from different scenarios cannot be combined to pass.
+Delivery and relative-transmission differences use paired-sample t intervals.
+Oracle-gap scores use Clopper-Pearson binomial intervals. G4d requires at
+least ten paired seeds, valid pairing, a delivery-delta lower bound of at
+least `-0.02`, a relative-transmission-delta upper bound of at most `-0.05`,
+and an oracle-gap lower bound greater than `0.05` in one scenario.
 
-The experiment compares whole runs. It does not measure the causal effect
-of forcing one relay decision, train a selector, or demonstrate that the
-oracle information is available to a deployed node. Artificial test fixtures
-check software behavior and are separate from the stored experiment data.
+These are comparisons of complete simulation runs, not interventions on a
+single relay decision. Artificial fixtures in the tests check software
+behavior and are separate from the experimental results.
 
 ## Limitations
 
-- **Simulation scope:** channel, propagation, scanning, and traffic behavior
-  are abstractions. The MAC uses carrier sensing and backoff; it is not a
-  validated BLE legacy-advertising controller or Bluetooth Mesh stack.
-- **Retransmission timing:** intended intervals and jitter are recorded as
-  metadata. The engine lacks policy-owned delayed timer hooks, so these values
-  do not implement delayed retransmission scheduling.
-- **Cost measurement:** `tx_attempts` is a count proxy. The source's `energy_j`
-  field multiplies seconds by milliwatts without conversion to joules; it is
-  an uncalibrated proxy, not hardware energy or battery-life evidence.
-- **Emergency naming:** the emergency scenario creates competing application
-  flows; it does not encode distinct packet-priority forwarding.
-- **Statistical scope:** the negative gate result concerns these modes,
-  scenarios, seeds, and thresholds. It does not prove that adaptive forwarding
-  or machine learning can never help.
-- **Pairing scope:** initialization is matched; MAC/PHY execution need not
-  remain identical after the forwarding modes diverge.
-- **Transfer:** no BLE hardware measurements, field deployment, compliance
-  test, or successful ML-based forwarding result is established.
-- **Reproducibility:** verification is scoped to the recorded environment.
-  Different library versions can change numerical results. Missing SciPy can
-  trigger alternative interval calculations in the preserved source.
-- **Release rights:** publication was authorized by the account holder.
-  Copyright ownership and third-party rights have not been independently
-  verified, and no open-source license is assigned.
+- **MAC/PHY abstraction:** propagation, scanning, interference, and channel
+  access are simplified. Carrier sensing and backoff do not constitute a
+  validated BLE advertising controller or Bluetooth Mesh implementation.
+- **Retransmission timing:** intervals and jitter are stored as intended
+  timing metadata. The engine does not dispatch the policy's delayed timer
+  hooks, so delayed retransmission scheduling is not implemented.
+- **Energy units:** `tx_attempts` is a count-based cost proxy. The `energy_j`
+  field multiplies seconds by milliwatts without converting to joules.
+  It is not measured device energy and does not demonstrate battery savings.
+- **Emergency traffic:** the emergency scenario uses competing application
+  flows without distinct packet-priority forwarding.
+- **Statistical scope:** the gate result is limited to the defined experiment.
+  Initialization is paired, but later MAC/PHY behavior can differ between modes.
+- **Generalization:** there is no physical BLE testing, field-deployment
+  validation, standards-compliance evidence, or successful ML-controlled
+  forwarding result.
+- **Reproducibility:** only the documented Windows/Python environment was
+  verified. Other library versions can change results; missing SciPy can
+  trigger alternative interval calculations.
 
 ## Contributing · License · Contact
 
-**Contributing:** use Issues to report a
-problem with the command, environment, scenario, seed, and observed output.
-Proposed changes should preserve the frozen reference results, pass the
-focused tests, and distinguish software verification from performance claims.
-Changes to policies, thresholds, or scenarios require a separately identified
-experiment rather than replacing this study's negative result.
+### Contributing
 
-**License:** This project is shared for academic, educational, and research transparency purposes.
+Please report issues with the command, Python environment, scenario, seed,
+and observed output. Contributions should pass the focused tests, retain
+existing attribution and [source provenance](PROVENANCE.json), and keep the
+original results intact. Changes to policies, scenarios, or thresholds should
+be documented as separate experiments.
+
+### License
+
+This project is shared for academic, educational, and research transparency purposes.
+
 No open-source license has been assigned. Reuse, modification, or redistribution may require permission from the relevant copyright holders.
-For details, see Ownership and Licensing Status.
 
-**Contact:** use the [repository's Issues tab](https://github.com/MdSajid007/g4-forwarding-simulation/issues).
-No personal email address or unverified source-author identity is included.
+For details, see [Ownership and Licensing Status](LICENSE_STATUS.md).
+
+### Contact
+
+**Md Sajid Islam** — repository maintainer and project contact.
+
+Department of Artificial Intelligence and Big Data,
+Woosong University, South Korea.
+
+- GitHub: [MdSajid007](https://github.com/MdSajid007)
+- Email: [mister.sajidislam@gmail.com](mailto:mister.sajidislam@gmail.com)
