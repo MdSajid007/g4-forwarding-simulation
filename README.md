@@ -2,10 +2,7 @@
 
 > A Python simulator for evaluating forwarding reliability and transmission costs under controlled network conditions.
 
-Wireless devices can pass packets, or small units of data, through neighboring
-devices to reach a destination. Sending more copies may improve delivery, but
-it can also increase network traffic. This project investigates that trade-off
-using a simulator inspired by Bluetooth Low Energy (BLE) advertising.
+Wireless devices can pass packets through neighboring devices to reach a destination. Sending more copies may improve delivery, but it can also increase network traffic. This project investigates the trade-off of that particular case, by using a simulator inspired by Bluetooth Low Energy (BLE) advertising.
 
 The simulator compares **flooding**, where each eligible node relays a newly
 received packet, with **controlled retransmission**, where a forwarding node
@@ -15,15 +12,14 @@ outcomes.
 
 The original **G4a–G4d experimental series** forms part of the broader
 **DRF-BLE** research project. This repository contains its Python implementation,
-scenario definitions, and results. None of the nine G4d scenarios passed the
-combined acceptance criteria; the result is reported as **`NULL/NEGATIVE`**.
+scenario definitions, and all the results. None of the nine G4d scenarios passed the
+combined acceptance criteria, so the result is reported as **`NULL/NEGATIVE`**.
 
 ## Problem & Users
 
 I use these experiments to ask whether controlled retransmission can maintain
 packet delivery while reducing transmission attempts compared with flooding.
-This matters because delivery improvements can come with substantial extra
-traffic, so delivery alone is an incomplete measure of forwarding efficiency.
+Since delivery improvements can come with substantial extra traffic, this can be very usefull. Moreover, delivery alone is an incomplete measure of forwarding efficiency.
 
 The main reliability measure is **packet-delivery ratio (PDR)**: the number
 of packets delivered divided by the number injected into the simulation.
@@ -98,7 +94,7 @@ without changing its algorithms, seeds, or statistical thresholds.
   files below.
 
 No BLE radio is needed to run the simulation. Other operating systems and
-Python versions have not been verified. SciPy is required to reproduce the
+Python versions have not been verified so far. SciPy is required to reproduce the
 recorded confidence-interval calculations.
 
 ## Installation
@@ -262,7 +258,7 @@ For details, see [Ownership and Licensing Status](LICENSE_STATUS.md).
 
 ### Contact
 
-**Md Sajid Islam** — repository maintainer and project contact.
+**Md Sajid Islam** - repository maintainer and project contact.
 
 Department of Artificial Intelligence and Big Data,
 Woosong University, South Korea.
